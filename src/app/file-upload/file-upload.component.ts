@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { throwError } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { environment } from '../../environments/environment.ts';
 
 @Component({
   selector: 'app-file-upload',
@@ -23,7 +24,7 @@ export class FileUploadComponent {
 
   listFiles() {
 
-    const bucketList = this.http.get("http://localhost:3000/list");
+    const bucketList = this.http.get(environment.apiUrl + "/list");
     bucketList.subscribe(data => {
       this.uploadedFile = data;
     });
@@ -45,7 +46,7 @@ export class FileUploadComponent {
 
       formData.append("file", this.file, this.file.name);
 
-      const upload$ = this.http.post("http://localhost:3000/upload", formData);
+      const upload$ = this.http.post(environment.apiUrl + "/upload", formData);
 
       this.status = "uploading";
 
@@ -68,7 +69,7 @@ export class FileUploadComponent {
       key: key
     };
     
-    const erase$ = this.http.delete("http://localhost:3000/erase/" + key);
+    const erase$ = this.http.delete(environment.apiUrl + "/erase/" + key);
 
     this.status = "Erasing";
 
